@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+    php:
+        container_name: php
+        build:
+            context: .
+            target: php
+        working_dir: /var/www
+        volumes:
+            -   ./:/var/www
+        ports:
+            - "8000:8000"
+        depends_on:
+            -   database
+    database:
+        container_name: database
+        image: mysql:8.0
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_DATABASE=laravel
+            - MYSQL_USER=matt
+            - MYSQL_PASSWORD=password
+            - MYSQL_ROOT_PASSWORD=password
+        volumes:
+            - db-data:/var/lib/mysql
+            - './docker/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+
+    pma:
+        container_name: pma
+        image: phpmyadmin
+        ports:
+            - 9000:80
+        environment:
+            - PMA_HOST=database
+            - PMA_PORT-3306
+            - PMA_ARBITRARY=1
+volumes:
+    db-data: ~
