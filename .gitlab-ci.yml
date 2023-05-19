@@ -1,0 +1,21 @@
+docker-build:
+  # Use the official docker image.
+  image: docker:latest
+  stage: build
+  variables:
+      DB_CONNECTION: "mysql"
+      DB_HOST: "database"
+      DB_PORT: "3306"
+      DB_DATABASE: "laravel"
+      DB_USERNAME: "matt"
+      DB_PASSWORD: "password"
+
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  # Default branch leaves tag empty (= latest tag)
+  # All other branches are tagged with the escaped branch name (commit ref slug)
+  script:
+    - docker-compose up
+    - docker-compose exec php php artisan test
