@@ -8,7 +8,7 @@ ENV PHP_OPCACHE_REVALIDATE_FREQ=0
 RUN usermod -u 1000 www-data
 
 RUN apt-get update -y
-RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx
+RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx zip
 RUN docker-php-ext-install pdo pdo_mysql bcmath curl opcache
 
 WORKDIR /var/www
