@@ -18,22 +18,21 @@ services:
         ports:
             - "3306:3306"
         environment:
-            - MYSQL_DATABASE=laravel
-            - MYSQL_USER=matt
-            - MYSQL_PASSWORD=password
-            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_USER=${DB_USERNAME}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
         volumes:
+            - ./docker/mysql:/docker-entrypoint-initdb.d
             - db-data:/var/lib/mysql
-            - './docker/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-
     pma:
         container_name: pma
         image: phpmyadmin
         ports:
             - 9000:80
         environment:
-            - PMA_HOST=database
-            - PMA_PORT-3306
+            - PMA_HOST={$DB_HOST}
             - PMA_ARBITRARY=1
+
 volumes:
     db-data: ~
