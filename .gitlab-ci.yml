@@ -17,7 +17,7 @@ docker-build:
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
-    - docker-compose build
+    - docker-compose build --no-cache
     - docker-compose up -d
     - docker-compose exec php composer install
     - docker-compose exec php php artisan cache:clear
