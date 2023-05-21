@@ -11,9 +11,12 @@ variables:
   MYSQL_DATABASE: "laravel"
   MYSQL_USER: "matt"
   MYSQL_PASSWORD: "password"
-  DB_HOST: "database"
-  DB_PORT: "3306"
   DB_CONNECTION: "mysql"
+  DB_HOST: "database"
+  DB_PORT: 3306
+  DB_DATABASE: l"aravel"
+  DB_USERNAME: "matt"
+  DB_PASSWORD: "password"
 
 before_script:
   - apk add --no-cache curl
