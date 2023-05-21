@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-    php:
-        container_name: php
+    app:
+        container_name: app
         build:
             context: .
             target: php
@@ -33,6 +33,10 @@ services:
         environment:
             - PMA_HOST={$DB_HOST}
             - PMA_ARBITRARY=1
-
+    jenkins:
+        image: jenkins/jenkins
+        container_name: jenkins
+        ports:
+            - "8080:8080"
 volumes:
     db-data: ~
