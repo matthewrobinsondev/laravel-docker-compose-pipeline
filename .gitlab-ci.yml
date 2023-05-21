@@ -7,7 +7,7 @@ stages:
   - test
 
 variables:
-  MYSQL_DATABASE: laravel
+  MYSQL_DATABASE: testing
   MYSQL_USER: matt
   MYSQL_PASSWORD: password
   DB_CONNECTION: mysql
