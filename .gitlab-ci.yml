@@ -27,8 +27,11 @@ build:
 test:
   stage: test
   script:
+    - cp .env.example .env
     - docker-compose up -d
     - docker-compose exec -T app composer install
-    - docker-compose exec -T app php artisan migrate:install
+    - docker-compose exec -T app php artisan key:generate
+    - docker-compose exec -T app php artisan config:clear
+    - docker-compose exec -T app php artisan migrate
     - docker-compose exec -T app php artisan test
     - docker-compose down
