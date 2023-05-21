@@ -12,6 +12,8 @@ services:
             - "8000:8000"
         depends_on:
             -   database
+        networks:
+            - laravel
     database:
         container_name: database
         image: mysql:8.0
@@ -25,6 +27,8 @@ services:
         volumes:
             - ./docker/mysql:/docker-entrypoint-initdb.d
             - db-data:/var/lib/mysql
+        networks:
+            - laravel
     pma:
         container_name: pma
         image: phpmyadmin
@@ -33,10 +37,29 @@ services:
         environment:
             - PMA_HOST={$DB_HOST}
             - PMA_ARBITRARY=1
+        networks:
+            - laravel
     jenkins:
         image: jenkins/jenkins
         container_name: jenkins
         ports:
             - "8080:8080"
+        networks:
+            - laravel
+    artisan:
+        build:
+            context: .
+            target: php
+        container_name: artisan
+        volumes:
+            - ./:/var/www:delegated
+        depends_on:
+            - database
+        working_dir: /var/www
+        entrypoint: [ 'php', '/var/www/artisan' ]
+        networks:
+            - laravel
 volumes:
-    db-data: ~
+    db-data:
+networks:
+    laravel:

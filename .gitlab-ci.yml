@@ -36,6 +36,5 @@ test:
     - docker-compose exec -T app php artisan view:clear
     - docker-compose exec -T app php artisan config:clear
     - docker-compose ps
-    - docker-compose exec -T app php artisan migrate:fresh
-    - docker-compose exec -T app php artisan test
+    - docker-compose run --rm artisan test
     - docker-compose down
