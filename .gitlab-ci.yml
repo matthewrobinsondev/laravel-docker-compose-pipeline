@@ -24,6 +24,7 @@ before_script:
 test:
   stage: test
   script:
+    - docker-compose down -v
     - cp .env.example .env
     - docker-compose build --no-cache
     - docker-compose up -d
