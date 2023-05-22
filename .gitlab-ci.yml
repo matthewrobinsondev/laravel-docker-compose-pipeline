@@ -1,4 +1,7 @@
-image: docker:dind
+image: docker/compose
+
+services:
+  - docker:dind
 
 stages:
   - test
