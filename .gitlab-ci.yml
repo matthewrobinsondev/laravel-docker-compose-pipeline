@@ -31,5 +31,5 @@ test:
     # - docker-compose run --rm artisan cache:clear
     # - docker-compose run --rm artisan config:clear
     # - docker-compose ps
-    # - docker-compose run --rm artisan test
+    - docker-compose run --rm artisan test
     # - docker-compose down
