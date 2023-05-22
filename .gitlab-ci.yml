@@ -7,19 +7,14 @@ stages:
   - test
 
 variables:
-  MYSQL_DATABASE: testing
-  MYSQL_USER: matt
-  MYSQL_PASSWORD: password
   DB_CONNECTION: mysql
   DB_HOST: mysql
   DB_PORT: 3306
-  DB_DATABASE: testing
+  DB_DATABASE: laravel
   DB_USERNAME: matt
   DB_PASSWORD: password
 
 before_script:
-  - apk add --no-cache curl
-  - apk add --no-cache mysql-client
   - docker-compose down -v
   - cp .env.example .env
   - docker-compose build --no-cache
