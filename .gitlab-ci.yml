@@ -11,7 +11,7 @@ variables:
   MYSQL_USER: matt
   MYSQL_PASSWORD: password
   DB_CONNECTION: mysql
-  DB_HOST: database
+  DB_HOST: mysql
   DB_PORT: 3306
   DB_DATABASE: testing
   DB_USERNAME: matt
@@ -20,21 +20,19 @@ variables:
 before_script:
   - apk add --no-cache curl
   - apk add --no-cache mysql-client
+  - docker-compose down -v
+  - cp .env.example .env
+  - docker-compose build --no-cache
+  - docker-compose up -d
+  - sleep 60s
 
 test:
   stage: test
   script:
-    - docker-compose down -v
-    - cp .env.example .env
-    - docker-compose build --no-cache
-    - docker-compose up -d
-    - docker-compose exec -T app composer install
-    - docker-compose exec -T app php artisan key:generate
-    - docker-compose exec -T app php artisan cache:clear
-    - docker-compose exec -T app php artisan route:clear
-    - docker-compose exec -T app php artisan config:clear
-    - docker-compose exec -T app php artisan view:clear
-    - docker-compose exec -T app php artisan config:clear
+    - docker-compose run --rm composer install
+    - docker-compose run --rm artisan key:generate
+    - docker-compose run --rm artisan cache:clear
+    - docker-compose run --rm artisan config:clear
     - docker-compose ps
     - docker-compose run --rm artisan test
     - docker-compose down
