@@ -12,7 +12,6 @@ variables:
   DB_PASSWORD: password
 
 before_script:
-  - docker-compose down -v
   - cp .env.example .env
   - docker-compose build 
   - apk add mysql-client
