@@ -1,7 +1,4 @@
-image: docker/compose:1.29.2
-
-services:
-  - docker:dind
+image: docker:dind
 
 stages:
   - test
@@ -20,7 +17,7 @@ before_script:
   - docker-compose build 
   - apk add mysql-client
   - docker-compose up -d
-  - sleep 10s
+  - sleep 40s
   - docker-compose logs database
   - docker-compose run --rm database mysql -h database -u matt -ppassword -e "SHOW DATABASES;"
 
