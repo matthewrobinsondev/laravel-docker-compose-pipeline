@@ -18,6 +18,7 @@ before_script:
   - docker-compose down -v
   - cp .env.example .env
   - docker-compose build --no-cache
+  - apk add mysql-client
   - docker-compose up -d
   - sleep 60s
 
