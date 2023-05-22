@@ -17,18 +17,20 @@ variables:
 before_script:
   - docker-compose down -v
   - cp .env.example .env
-  - docker-compose build --no-cache
+  - docker-compose build 
   - apk add mysql-client
   - docker-compose up -d
   - sleep 60s
+  - docker-compose logs database
+  - docker-compose exec database mysql -h database -u matt -ppassword -e "SHOW DATABASES;"
 
 test:
   stage: test
   script:
     - docker-compose run --rm composer install
-    - docker-compose run --rm artisan key:generate
-    - docker-compose run --rm artisan cache:clear
-    - docker-compose run --rm artisan config:clear
-    - docker-compose ps
-    - docker-compose run --rm artisan test
-    - docker-compose down
+    # - docker-compose run --rm artisan key:generate
+    # - docker-compose run --rm artisan cache:clear
+    # - docker-compose run --rm artisan config:clear
+    # - docker-compose ps
+    # - docker-compose run --rm artisan test
+    # - docker-compose down
