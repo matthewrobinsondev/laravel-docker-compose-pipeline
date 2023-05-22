@@ -20,9 +20,9 @@ before_script:
   - docker-compose build 
   - apk add mysql-client
   - docker-compose up -d
-  - sleep 60s
+  - sleep 10s
   - docker-compose logs database
-  - docker-compose exec database mysql -h database -u matt -ppassword -e "SHOW DATABASES;"
+  - docker-compose run --rm database mysql -h database -u matt -ppassword -e "SHOW DATABASES;"
 
 test:
   stage: test
