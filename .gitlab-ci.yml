@@ -30,5 +30,6 @@ test:
     - docker-compose run --rm artisan key:generate
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
+    - docker-compose run --rm artisan migrate:fresh
     - docker-compose ps
     - docker-compose exec -T app ./vendor/bin/phpunit
