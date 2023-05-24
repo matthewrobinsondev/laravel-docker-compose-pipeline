@@ -16,7 +16,7 @@ variables:
 
 before_script:
   - cp .env.example .env
-  - docker-compose build 
+  - docker-compose build --no-cache
   - apk add mysql-client
   - docker-compose up -d
   - sleep 40s
@@ -27,9 +27,8 @@ test:
   stage: test
   script:
     - docker-compose run --rm composer install
-    # - docker-compose run --rm artisan key:generate
-    # - docker-compose run --rm artisan cache:clear
-    # - docker-compose run --rm artisan config:clear
-    # - docker-compose ps
+    - docker-compose run --rm artisan key:generate
+    - docker-compose run --rm artisan cache:clear
+    - docker-compose run --rm artisan config:clear
+    - docker-compose ps
     - docker-compose run --rm artisan test
-    # - docker-compose down
