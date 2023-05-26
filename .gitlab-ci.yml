@@ -22,7 +22,7 @@ before_script:
 test:
   stage: test
   script:
-    - docker-compose up -d database
+    - docker-compose up -d database app
     #- docker-compose run --rm composer install
     - docker-compose exec -T app npm install
     - docker-compose exec -T app npm run build
