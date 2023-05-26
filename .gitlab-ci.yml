@@ -34,3 +34,5 @@ test:
     - docker-compose run --rm artisan config:clear
     - docker-compose ps
     - docker-compose run --rm artisan test
+    - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
+
