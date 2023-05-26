@@ -23,19 +23,12 @@ unit_test:
   stage: tests
   script:
     - docker-compose up -d database app
-    #- docker-compose run --rm composer install
     - docker-compose exec -T app npm install
     - docker-compose exec -T app npm run build
     - docker-compose run --rm artisan key:generate
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
     - docker-compose run --rm artisan test
-  
-code_standards:
-  stage: tests
-  script:
-    - docker-compose up -d app
     - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
-  
 
 
