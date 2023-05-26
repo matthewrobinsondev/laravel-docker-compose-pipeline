@@ -18,21 +18,14 @@ before_script:
   - cp .env.example .env
   - docker-compose build
   - apk add mysql-client
-  - docker-compose up -d
-  - sleep 40s
-  - docker-compose logs database
-  - docker-compose run --rm database mysql -h database -u matt -ppassword -e "SHOW DATABASES;"
 
 test:
   stage: test
   script:
-    - docker-compose run --rm composer install
-    - docker-compose exec -T app npm install
-    - docker-compose exec -T app npm run build
+    - docker-compose up -d
     - docker-compose run --rm artisan key:generate
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
-    - docker-compose ps
     - docker-compose run --rm artisan test
     - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
 
