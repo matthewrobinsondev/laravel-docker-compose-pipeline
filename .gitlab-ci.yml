@@ -28,7 +28,7 @@ build:
 cache_vendor:
   stage: cache_vendor
   script:
-    - docker-compose run --rm composer install --prefer-dist --no-dev --no-scripts --no-progress
+    - docker-compose run --rm composer install
     - docker-compose exec -T app npm install
 
 test:
