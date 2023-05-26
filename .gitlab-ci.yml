@@ -4,7 +4,7 @@ services:
   - docker:dind
 
 stages:
-  - test
+  - tests
 
 variables:
   DB_CONNECTION: mysql
@@ -19,8 +19,8 @@ before_script:
   - docker-compose build
   - apk add mysql-client
 
-test:
-  stage: test
+unit_test:
+  stage: tests
   script:
     - docker-compose up -d database app
     #- docker-compose run --rm composer install
@@ -30,5 +30,12 @@ test:
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
     - docker-compose run --rm artisan test
+  
+code_standards:
+  stage: tests
+  script:
+    - docker-compose up -d app
     - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
+  
+
 
