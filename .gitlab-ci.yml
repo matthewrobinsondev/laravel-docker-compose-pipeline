@@ -23,6 +23,9 @@ test:
   stage: test
   script:
     - docker-compose up -d
+    - docker-compose run --rm composer install
+    - docker-compose exec -T app npm install
+    - docker-compose exec -T app npm run build
     - docker-compose run --rm artisan key:generate
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
