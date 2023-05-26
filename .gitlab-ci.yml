@@ -19,8 +19,8 @@ variables:
 build:
   stage: build
   script:
-  - docker-compose build
-  - docker-compose up -d
+    - docker-compose build --pull
+    - docker-compose up -d --compatibility
 
 cache_vendor:
   stage: cache_vendor
