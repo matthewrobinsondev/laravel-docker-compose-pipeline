@@ -4,14 +4,10 @@ services:
   - docker:dind
 
 stages:
+  - build
+  - cache_vendor
   - test
 
-# Cache libraries in between jobs
-cache:
-  key: $CI_COMMIT_REF_SLUG
-  paths:
-    - vendor/
-    
 variables:
   DB_CONNECTION: mysql
   DB_HOST: database
@@ -20,15 +16,21 @@ variables:
   DB_USERNAME: matt
   DB_PASSWORD: password
 
-before_script:
+build:
+  stage: build
+  script:
   - docker-compose build
   - docker-compose up -d
+
+cache_vendor:
+  stage: cache_vendor
+  script:
+    - docker-compose run --rm composer install --prefer-dist --no-dev --no-scripts --no-progress
+    - docker-compose exec -T app npm install
 
 test:
   stage: test
   script:
-    - docker-compose run --rm composer install
-    - docker-compose exec -T app npm install
     - docker-compose exec -T app npm run build
     - docker-compose run --rm artisan key:generate
     - docker-compose run --rm artisan cache:clear
