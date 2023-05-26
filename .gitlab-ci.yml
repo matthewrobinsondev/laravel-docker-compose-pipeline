@@ -6,6 +6,12 @@ services:
 stages:
   - test
 
+# Cache libraries in between jobs
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - vendor/
+    
 variables:
   DB_CONNECTION: mysql
   DB_HOST: database
