@@ -23,7 +23,7 @@ test:
   stage: test
   script:
     - docker-compose up -d database
-    - docker-compose run --rm composer install
+    #- docker-compose run --rm composer install
     - docker-compose exec -T app npm install
     - docker-compose exec -T app npm run build
     - docker-compose run --rm artisan key:generate
