@@ -16,11 +16,14 @@ variables:
   DB_USERNAME: matt
   DB_PASSWORD: password
 
+before_script:
+  - export COMPOSE_PROJECT_NAME=myproject-$CI_PIPELINE_ID
+
 build:
   stage: build
   script:
     - docker-compose build --pull
-    - docker-compose up -d --compatibility
+    - docker-compose up -d
 
 cache_vendor:
   stage: cache_vendor
