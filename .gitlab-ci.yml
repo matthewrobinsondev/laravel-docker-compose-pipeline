@@ -6,7 +6,6 @@ services:
 stages:
   - build
   - tests
-  - code_standards
 
 variables:
   DB_CONNECTION: mysql
@@ -34,10 +33,6 @@ tests:
     - docker-compose run --rm artisan config:clear
     - docker-compose run --rm artisan test
     - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
-
-code_standards:
-  stage: code_standards
-  script:
     - docker-compose run --rm pint --test
 
 
