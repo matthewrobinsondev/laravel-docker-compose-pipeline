@@ -4,7 +4,9 @@ services:
   - docker:dind
 
 stages:
+  - build
   - tests
+  - code_standards
 
 variables:
   DB_CONNECTION: mysql
@@ -14,12 +16,14 @@ variables:
   DB_USERNAME: matt
   DB_PASSWORD: password
 
-before_script:
-  - cp .env.example .env
-  - docker-compose build
-  - apk add mysql-client
+build:
+  stage: build
+  script:
+    - cp .env.example .env
+    - docker-compose build
+    - apk add mysql-client
 
-unit_test:
+tests:
   stage: tests
   script:
     - docker-compose up -d database app
@@ -30,5 +34,11 @@ unit_test:
     - docker-compose run --rm artisan config:clear
     - docker-compose run --rm artisan test
     - docker-compose exec -T app ./vendor/bin/pint --preset=psr12 --test
+
+code_standards:
+  stage: code_standards
+  script:
+    - docker-compose run --rm pint --test
+
 
 

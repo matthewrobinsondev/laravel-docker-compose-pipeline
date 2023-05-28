@@ -70,6 +70,19 @@ services:
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
         networks:
             - laravel
+    pint:
+        build:
+            context: .
+            target: php
+        container_name: pint
+        volumes:
+            - ./:/var/www:delegated
+        depends_on:
+            - database
+        working_dir: /var/www
+        entrypoint: [ '/var/www/vendor/bin/pint', '--preset=psr12' ]
+        networks:
+            - laravel
 volumes:
     db-data:
 networks:
