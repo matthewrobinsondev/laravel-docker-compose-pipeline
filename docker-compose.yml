@@ -5,9 +5,9 @@ services:
         build:
             context: .
             target: php
-        working_dir: /var/www/html
+        working_dir: /var/www
         volumes:
-            -   ./:/var/www/html
+            -   ./:/var/www
         ports:
             - "8000:8000"
         depends_on:
@@ -52,19 +52,19 @@ services:
             target: php
         container_name: artisan
         volumes:
-            - ./:/var/www/html:delegated
+            - ./:/var/www:delegated
         depends_on:
             - database
-        working_dir: /var/www/html
-        entrypoint: [ 'php', '/var/www/html/artisan' ]
+        working_dir: /var/www
+        entrypoint: [ 'php', '/var/www/artisan' ]
         networks:
             - laravel
     composer:
         image: composer:2.3.5
         container_name: composer
         volumes:
-            - ./:/var/www/html
-        working_dir: /var/www/html
+            - ./:/var/www
+        working_dir: /var/www
         depends_on:
             - app
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]

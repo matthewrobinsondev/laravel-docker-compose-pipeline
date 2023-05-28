@@ -11,7 +11,7 @@ RUN apt-get update -y
 RUN apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx zip
 RUN docker-php-ext-install pdo pdo_mysql bcmath curl opcache
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 COPY --chown=www-data . .
 
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
@@ -27,7 +27,7 @@ RUN apt-get install nodejs -y
 #RUN php artisan cache:clear
 #RUN php artisan config:clear
 
-RUN chmod -R 755 /var/www/html/storage
-RUN chmod -R 755 /var/www/html/bootstrap
+RUN chmod -R 755 /var/www/storage
+RUN chmod -R 755 /var/www/bootstrap
 
 ENTRYPOINT ["docker/entrypoint.sh"]
