@@ -67,6 +67,7 @@ services:
         working_dir: /var/www
         depends_on:
             - app
+        user: '1000'
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
         networks:
             - laravel
@@ -77,10 +78,30 @@ services:
         container_name: pint
         volumes:
             - ./:/var/www:delegated
-        depends_on:
-            - database
         working_dir: /var/www
         entrypoint: [ '/var/www/vendor/bin/pint', '--preset=psr12' ]
+        networks:
+            - laravel
+    larastan:
+        build:
+            context: .
+            target: php
+        container_name: larastan
+        volumes:
+            - ./:/var/www:delegated
+        working_dir: /var/www
+        entrypoint: [ '/var/www/vendor/bin/phpstan','analyse','--memory-limit=2G' ]
+        networks:
+            - laravel
+    phpmd:
+        build:
+            context: .
+            target: php
+        container_name: phpmd
+        volumes:
+            - ./:/var/www:delegated
+        working_dir: /var/www
+        entrypoint: [ '/var/www/vendor/bin/phpmd', 'app', 'gitlab', 'phpmd.xml' ]
         networks:
             - laravel
 volumes:

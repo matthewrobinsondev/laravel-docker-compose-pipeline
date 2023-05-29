@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<phpmd-baseline>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="app/Console/Kernel.php"/>
+  <violation rule="PHPMD\Rule\UnusedFormalParameter" file="app/Exceptions/Handler.php"/>
+  <violation rule="PHPMD\Rule\Controversial\CamelCaseClassName" file="app/Models/test.php"/>
+</phpmd-baseline>

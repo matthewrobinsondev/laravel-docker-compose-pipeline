@@ -20,7 +20,6 @@ build:
   stage: build
   script:
     - cp .env.example .env
-    - docker-compose build
     - apk add mysql-client
 
 tests:
@@ -33,13 +32,9 @@ tests:
     - docker-compose run --rm artisan cache:clear
     - docker-compose run --rm artisan config:clear
     - docker-compose run --rm artisan test
-
-code_standards:
-  stage: code_standards
-  script:
-    - docker-compose up -d app
-    - sleep 20s
     - docker-compose run --rm pint --test
+    - docker-compose run --rm larastan
+    - docker-compose run --rm phpmd
 
 
 
