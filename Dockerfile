@@ -23,9 +23,6 @@ COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
 
 RUN curl -sLS https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install nodejs -y
-#
-#RUN php artisan cache:clear
-#RUN php artisan config:clear
 
 RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/bootstrap
