@@ -27,4 +27,11 @@ RUN apt-get install nodejs -y
 RUN chmod -R 755 /var/www/storage
 RUN chmod -R 755 /var/www/bootstrap
 
+RUN touch /run/nginx.pid \
+ && chown -R www-data:www-data /run/nginx.pid
+
+RUN mkdir -p /var/lib/nginx/tmp /var/log/nginx \
+    && chown -R www-data:www-data /var/lib/nginx /var/log/nginx \
+    && chmod -R 755 /var/lib/nginx /var/log/nginx
+
 ENTRYPOINT ["docker/entrypoint.sh"]

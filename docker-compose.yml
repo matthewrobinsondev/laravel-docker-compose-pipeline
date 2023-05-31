@@ -2,6 +2,7 @@ version: '3.8'
 services:
     app:
         container_name: app
+        user: 'www-data:1000'
         build:
             context: .
             target: php
@@ -9,7 +10,7 @@ services:
         volumes:
             -   ./:/var/www
         ports:
-            - "80:80"
+            - "8000:8000"
         depends_on:
             -   database
         networks:
@@ -47,6 +48,7 @@ services:
         networks:
             - laravel
     artisan:
+        user: 'www-data:1000'
         build:
             context: .
             target: php
@@ -67,7 +69,7 @@ services:
         working_dir: /var/www
         depends_on:
             - app
-        user: '1000'
+        user: 'www-data:1000'
         entrypoint: [ 'composer', '--ignore-platform-reqs' ]
         networks:
             - laravel
