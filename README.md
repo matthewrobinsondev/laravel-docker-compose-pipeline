@@ -1,66 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Docker Compose Environment
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project provides a Docker Compose environment for Laravel applications, similar to Sail but without the magic. It allows you to quickly set up and run your Laravel applications in a containerized environment.
 
-## About Laravel
+## Getting Started
+To get started with the Laravel Docker Compose environment, follow the steps below:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Prerequisites
+Make sure you have the following software installed on your machine:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Docker
+- Docker Compose
+### Setup
+Clone the repository to your local machine:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+``` shell
+git clone https://github.com/your-username/your-repo.git
+```
+Navigate to the project directory:
 
-## Learning Laravel
+```shell
+cd your-repo
+```
+Build the Docker containers:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+``` shell
+docker-compose build
+```
+Start the containers:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+``` shell
+docker-compose up -d
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Access your Laravel application at http://localhost:8000.
 
-## Laravel Sponsors
+## Nginx Configuration
+The Nginx configuration file used in the Dockerfile sets up the web server for your Laravel application. Here are some important details from the configuration:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- worker_connections: The maximum number of simultaneous connections that each Nginx worker process can handle.
 
-### Premium Partners
+- keepalive_timeout and keepalive_requests: The keep-alive timeout and maximum number of requests per keep-alive connection.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- client_max_body_size and client_body_buffer_size: The maximum allowed size for client request bodies.
 
-## Contributing
+- sendfile: Enables the use of sendfile() for serving static files.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- server_tokens: Disables sending Nginx version information in the response headers.
 
-## Code of Conduct
+- upstream php-fpm: Defines the upstream PHP-FPM server that Nginx will pass PHP requests to.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- server: Defines the server block for your Laravel application.
 
-## Security Vulnerabilities
+  - listen: The port on which Nginx listens for incoming requests.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+  - server_name: The domain name associated with your Laravel application.
+
+  - root: The document root directory for your Laravel application.
+
+  - index: The index file to serve when a directory is accessed.
+
+  - error_log and access_log: The paths for Nginx error and access logs.
+
+  - location /: Handles the main requests and attempts to serve static files directly. If the file is not found, it passes the request to index.php.
+    
+  - location ~ \.php$: Handles PHP files and passes the request to the PHP-FPM server.
+
+You can modify the Nginx configuration according to your specific needs by editing the **nginx.conf** file.
+
+## Additional Information
+The Docker Compose environment creates a bridge network named laravel to connect the containers.
+
+The MySQL database data is persisted using a named volume called db-data. This ensures that the data is not lost when the containers are restarted.
 
 ## License
+This project is licensed under the MIT License.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Feel free to modify and adapt the Docker Compose environment according to your requirements.
+
+Replace your-username and your-repo in the clone command with your GitHub username and repository name, respectively.
